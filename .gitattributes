@@ -1,2 +1,9 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Simulink/MATLAB binary files - do not diff/merge as text
+*.slx binary
+*.mdl binary
+*.mat binary
+*.sldd binary
+*.slxc binary

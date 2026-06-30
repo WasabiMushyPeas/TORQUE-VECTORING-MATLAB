@@ -1,0 +1,14 @@
+# Simulink / MATLAB build artifacts
+slprj/
+*.slxc
+*.autosave
+*.asv
+*.m~
+
+# Outputs (not source)
+results/
+codegen/
+
+# OS
+.DS_Store
+Thumbs.db

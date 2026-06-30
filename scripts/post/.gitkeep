@@ -1,0 +1,2 @@
+Post-processing scripts (e.g. lap-time comparison, telemetry overlay
+plotting) go here as the project grows past scripts/run_sim.m.
