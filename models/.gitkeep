@@ -1,9 +1,0 @@
-This file keeps the otherwise-empty directory tracked in git.
-
-Drop your Simulink models here:
-- tv_controller.slx   (refgen + FF/PID + allocator — auto-code target)
-- plant_bicycle.slx   (Stage 0/1 single-track plant, src/bicycle.m)
-- cp27e_tv_top.slx    (harness: controller + plant + maneuver + scopes)
-- plant_doubletrack.slx (Stage 2, added later)
-
-See the build guide for the block-by-block wiring (refgen -> PID -> allocate -> bicycle, closed loop).
