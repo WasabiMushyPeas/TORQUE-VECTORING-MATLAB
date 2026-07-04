@@ -24,6 +24,7 @@ for tv=[0 1]
     P.tv_enable=tv;                                
     set_param(model,'StopTime',num2str(t(end)));
     out=sim(model);
+    ds = out.get('logsout');
     k=sprintf('tv%d',tv);
     R.(k).t=out.tout;
     R.(k).r=out.logsout.get('r').Values.Data;
@@ -51,6 +52,13 @@ for tv=[0 1]
     R.(k).r_ss   = mean(R.(k).r(ss));
     R.(k).us_pct = 100*(1 - R.(k).r_ss/mean(R.(k).r_ref(ss)));
     R.(k).Vexit = R.(k).Vx(end);
+
+    % per-wheel signals
+    R.(k).T_FL = ds.get('T_FL').Values.Data;
+    R.(k).T_FR = ds.get('T_FR').Values.Data;
+    R.(k).T_RL = ds.get('T_RL').Values.Data;
+    R.(k).T_RR = ds.get('T_RR').Values.Data;
+    R.(k).Fz   = squeeze(ds.get('Fz').Values.Data)';   % N x 4 [FL FR RL RR]
 
 
     % understeer onset: first sustained >5% deviation of r below r_ref
@@ -116,9 +124,6 @@ plot(R.tv1.t,R.tv1.ay,'r-','DisplayName','a_y, TV on');
 xlabel('Time [s]'); ylabel('a_y [m/s^2]'); legend; title('Lateral accel');
 
 function plotGradientLine(x, y, c1, c2, alphaVal, lw, name)
-% Draw an open (non-closing) polyline with a color gradient from c1 to c2,
-% using the surface-strip trick — patch/line objects close their edge
-% loop back to the first vertex, which draws a spurious chord.
 n = numel(x);
 x = x(:)'; y = y(:)';
 frac = linspace(0,1,n)';
@@ -129,3 +134,18 @@ surface('XData',[x;x], 'YData',[y;y], 'ZData',zeros(2,n), ...
         'CData',cdata, 'FaceColor','none', 'EdgeColor','interp', ...
         'EdgeAlpha',alphaVal, 'LineWidth',lw, 'DisplayName',name);
 end
+
+%% ---- Per-wheel torques and vertical loads (TV on) ----
+figure('Name','Per-wheel torque & load — TV on');
+subplot(2,1,1); hold on; grid on;
+plot(R.tv1.t, R.tv1.T_FL, 'DisplayName','T_{FL}');
+plot(R.tv1.t, R.tv1.T_FR, 'DisplayName','T_{FR}');
+plot(R.tv1.t, R.tv1.T_RL, 'DisplayName','T_{RL}');
+plot(R.tv1.t, R.tv1.T_RR, 'DisplayName','T_{RR}');
+ylabel('Motor torque [Nm]'); legend; title('Wheel torques');
+subplot(2,1,2); hold on; grid on;
+plot(R.tv1.t, R.tv1.Fz(:,1), 'DisplayName','Fz_{FL}');
+plot(R.tv1.t, R.tv1.Fz(:,2), 'DisplayName','Fz_{FR}');
+plot(R.tv1.t, R.tv1.Fz(:,3), 'DisplayName','Fz_{RL}');
+plot(R.tv1.t, R.tv1.Fz(:,4), 'DisplayName','Fz_{RR}');
+xlabel('Time [s]'); ylabel('Vertical load [N]'); legend; title('Wheel loads');

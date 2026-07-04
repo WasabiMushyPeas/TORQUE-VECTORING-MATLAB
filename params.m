@@ -21,6 +21,13 @@ P.mu  = 1.5;              % effective friction (from TTC fit)
 P.Cf  = 50000;            % front axle cornering stiffness [N/rad] (Pacejka fit)
 P.Cr  = 55000;            % rear  axle cornering stiffness [N/rad] (Pacejka fit)
 
+%% ---- Double-track / load transfer ----
+P.rsf  = 0.55;            % roll stiffness front fraction (0..1) — front ARB/spring share
+P.CdA  = 1.1;             % drag area [m^2] (matches your current 0.5*1.2*1.1 drag)
+P.rho  = 1.2;             % air density [kg/m^3]
+P.Crr  = 0.015;           % rolling resistance coefficient
+P.tau_lt = 0.02;          % load-transfer lag [s] (suspension settling, ~20 ms)
+
 %% ---- Powertrain ----
 P.gear     = 4.5;         % motor -> wheel reduction (confirm CP27E)
 P.Tmot_pk  = 21.0;        % peak motor torque [Nm] (<=1.24 s)
@@ -40,7 +47,7 @@ P.M_lag = 0.005;                        % AMK Inverter/motor lag [ms]
 
 %% ---- Sim setup ----
 P.Vx       = 10;          % constant test speed [m/s] (~36 km/h)
-P.T_drive  = 50;           % drive-torque demand [Nm] (0 = pure cornering)
+P.T_drive  = 0;           % drive-torque demand [Nm] (0 = pure cornering)
 P.tire     = 'mf';    % 'linear' | 'mf' (simplified Magic Formula)
 P.maxStep  = 1e-3;        % solver max step [s]
 P.stopTime = 6;           % sim stop time [s]
