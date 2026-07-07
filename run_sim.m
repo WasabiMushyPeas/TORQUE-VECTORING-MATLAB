@@ -1,6 +1,6 @@
 params;
 
-mode = 'ramp';          % 'step' | 'ramp' | 'steplimit' | 'skidpad'
+mode = 'skidpad';          % 'step' | 'ramp' | 'steplimit' | 'skidpad'
 dt = 1e-3;
 switch mode
     case 'step'                                    % gentle step (verification)
